@@ -1,0 +1,33 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='brutalclubbing.css') }}">
+
+<title>
+Quarantime {% block title %}{% endblock %}
+</title>
+
+<body>
+<div id="allaround">
+
+<div class="row">
+<div class="box">
+<top>
+<img src="{{ url_for('static', filename='logo.png') }}" alt="Get clubbed."><br>
+{% block top %}{% endblock %}
+</top>
+</div>
+</div>
+
+
+<div class="container">
+<nav>
+{% block nav %}{% endblock %}
+</nav>
+
+<section>
+{% block section %}{% endblock %}
+</section>
+</div>
+
+</div>
+</body>

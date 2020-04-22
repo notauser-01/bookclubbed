@@ -1,17 +1,13 @@
 import os, requests, random, string
 
 from flask import * 
-from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
-Session(app)
 
-# Set up database
-app.config['SESSION_PERMANENT'] = False
-app.config['SESSION_TYPE'] = "filesystem"
-engine = create_engine(os.environ.get("FUCKYOUR_DBURL") + "mydb")
+DATABASE_URL = "postgres://posqgmzmkovfzl:c2adb2a5d8d48bc2e4b9d9a9faace2bc1ef1e6750d253c2b8e21db14d1e9d5fc@ec2-34-202-7-83.compute-1.amazonaws.com:5432/d55g4f5l27noee"
+engine = create_engine(DATABASE_URL)
 db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
@@ -73,17 +69,23 @@ def dashboard(user_id):
 
 @app.route("/searched/<int:user_id>", methods=["GET","POST"])
 def searched(user_id):
-	user_id = user_id
-	query = "%" + string.capwords(request.form.get("search")) + "%"
-	results = db.execute("SELECT * FROM books WHERE author LIKE :query OR title LIKE :query OR isbn LIKE :query", \
-			{"query": query}).fetchall()
+	search = request.form.get('search')
+	query = [search, \
+			"%" + string.capwords(search, sep=None) + "%", \
+			"%" + search + "%"]
+	results = []
+	for i in query:
+		find = db.execute("SELECT * FROM books WHERE author LIKE :string OR title LIKE :string OR isbn LIKE :string", \
+				{"string": i}).fetchall()
+		for match in find:
+			if match not in results:
+				results.append(match)
+	result_count = len(results)
 	book = ""
-	return render_template("results.html", results=results, user_id=user_id, book=book)
+	return render_template("results.html", result_count=result_count, results=results, user_id=user_id, book=book)
 
 @app.route("/book/<int:user_id>/<string:book>", methods=["GET", "POST"])
 def book(user_id, book):
-	user_id = user_id
-	book = book
 	user_name = db.execute("SELECT name FROM users WHERE user_id = :user_id", \
 			{"user_id": user_id}).fetchone()[0]
 	check = db.execute("SELECT content FROM reviews JOIN users ON users.name = reviews.user_name WHERE user_id = :user_id AND book = :book", \

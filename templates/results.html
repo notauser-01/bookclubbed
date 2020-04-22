@@ -1,0 +1,22 @@
+{% extends 'dashboard.html' %}
+
+{% block results %}
+
+{% if result_count == 0 %}
+There are {{ result_count }} possible matches in our database.<br><br>
+{% elif result_count == 1 %}
+Is this your guy?<br><br>
+{% elif 1 < result_count < 25 %}
+There are {{ result_count }} possible matches in our database:<br><br>
+{% else %}
+Are you sure you know what you're looking for?<br>
+There are {{ result_count }} possible matches in our database:<br><br>
+{% endif %}
+
+{% for book in results %}
+<a href="{{ url_for('book', user_id=user_id, book=book.title) }}">
+{{ book.title }}</a> by {{ book.author }}
+<br>
+{% endfor %}
+<br>
+{% endblock %}

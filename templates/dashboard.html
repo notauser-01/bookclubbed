@@ -1,0 +1,25 @@
+{% extends 'template.html' %}
+
+{% block title %}Welcome Back {{ name }}!{% endblock %}
+
+{% block nav %}
+<p>Click a link:<br>
+ISBN to JSON<br>
+Go <a href="{{ url_for('dashboard', user_id=user_id) }}">Home</a><br>
+<a href="{{ url_for('index') }}">Sign Out</a>
+{% endblock %}
+
+{% block section %}
+<p>Read anything lately?<br> 
+
+<form action="{{ url_for('searched', user_id=user_id) }}" method="post">
+Search by title, author, ISBN, or whatever:
+<input type="text" name="search">
+<button>SEARCH!</button>
+</form>
+
+{% block results %}
+{% endblock %}
+
+An easy way to sign out is to manually input the URL for index.html - There's a bunch of random shit like that going on around here.
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "template.html" %}
+{% block title %}Bookclubbed{% endblock %}
+
+{% block nav %}
+<p>New users: <a href="{{ url_for('register') }}">Register</a><br>
+Existing users: <a href="{{ url_for('login') }}">Log in</a><br>
+Everyone: Stay <a href="{{ url_for('index') }}">Home</a>.</p>
+{% endblock %}
+
+{% block section %}
+<p><b>Welcome to Quarantime!</b><br><br> 
+Remember your login info:<br><br>
+<b>{{ name }}</b> corresponds to <b>{{ pw }}</b></p>
+<p>You can use that to: <a href=" {{ url_for('login') }}">Go post stuff and rate books.</a><br>
+If you wake up hungover and realize the posts are shit, you can always just make another username (it's not that hard). There's plenty of room in the database for usernames and book reviews.</p>
+{% endblock %}

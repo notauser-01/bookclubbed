@@ -1,0 +1,14 @@
+{% extends "Template.html" %}
+{% block title %}Fuckin' Blew it.{% endblock %}
+
+{% block nav %}
+<p>Click a link:<br>
+ISBN to JSON<br>
+Go <a href="{{ url_for('dashboard', user_id=user_id) }}">Home</a><br>
+<a href="{{ url_for('index') }}">Sign Out</a>
+{% endblock %}
+
+{% block section %}
+<h2>Hey bud,</h2>
+<p>{{ message }}</p>
+{% endblock %}

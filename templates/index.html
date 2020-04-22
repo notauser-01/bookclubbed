@@ -1,0 +1,12 @@
+{% extends "template.html" %}
+{% block title %}Bookclubbed{% endblock %}
+
+{% block nav %}
+<p>New users: <a href="{{ url_for('register') }}">Register</a><br>
+Existing users: <a href="{{ url_for('login') }}">Log in</a><br>
+Everyone: Stay <a href="{{ url_for('index') }}">Home</a>.</p>
+{% endblock %}
+
+{% block section %}
+<p>Welcome to Quarantime Bookclubbed where students of all schools of thought can complain about the books teachers clubbed them with. Plato's Republic? Fucking dull. Stewart's Seventh Edition with Early Trascendentals? The guy pulls no punches. CS250 is unlike any courses: students are not asked to read too much or too deep... their cannon is documentation. They are vexed in other ways.</p>
+{% endblock %}

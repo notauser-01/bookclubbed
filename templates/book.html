@@ -1,0 +1,44 @@
+{% extends 'Template.html' %}
+
+{% block nav %}
+<p>Click a link:<br>
+ISBN to JSON<br>
+Go <a href="{{ url_for('dashboard', user_id=user_id) }}">Home</a><br>
+<a href="{{ url_for('index') }}">Sign Out</a>
+{% endblock %}
+
+{% block section %}
+<p><a href="{{ url_for('book', user_id=user_id, book=book) }}">{{ info[2] }}</a><br>
+Written by {{ info[3] }} sometime during {{ info[4] }},<br>
+ISBN: {{ info[1] }}<br>
+Quarantime gave it {{ overall_rating }} out of 5 after only {{ count }} reviews.<br>
+
+{% if nogo == True %}
+<font size="1">"Good"reads tried to ruin your Quarantime experience.</font></p>
+{% else %}
+<font size="1">"Good"reads gave it {{ stuff['books'][0]['average_rating'] }} out of 5 after {{ stuff['books'][0]['work_ratings_count'] }} ratings and {{ stuff['books'][0]['work_reviews_count'] }} reviews.</font></p>
+{% endif %}
+
+<form action="{{ url_for('book', user_id=user_id, book=book) }}" method="post">
+<textarea name="review" rows="4" placeholder="No user may review the same book twice."></textarea><br>
+Rate it:<br> 
+<input type="radio" name="rating" id="1" value="1">1
+<input type="radio" name="rating" id="2" value="2">2
+<input type="radio" name="rating" id="3" value="3">3
+<input type="radio" name="rating" id="4" value="4">4
+<input type="radio" name="rating" id="5" value="5">5<br>
+
+<button onClick="window.location.reload();">REVIEW!</button>
+</form>
+
+<p>
+{% if count != 0 %}
+{% for item in reviews %}
+<p align="left"><b>{{ item.user_name }}</b> rates it <b>{{ item.rating }}</b>:<br> {{ item.content }}</p>
+{% endfor %}
+{% else %}
+Be the first to rate and review {{ title }}!
+{% endif %}
+</p>
+
+{% endblock %}
